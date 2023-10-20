@@ -63,3 +63,151 @@ Explanation:
 4. The `fit_transform` method of the NMF model is used to estimate the endmember abundances (`endmember_abundances`) and the endmember spectra (`endmember_spectra`).
 5. The reconstruction error is calculated as the Frobenius norm of the difference between the normalized VSWIR data and the matrix product of the estimated endmember abundances and endmember spectra.
 6. The endmember spectra, endmember abundances, and reconstruction error are returned as the output of the function.
+
+# VSWIR Imaging Spectroscopy Tutorial
+
+## Introduction
+VSWIR (Visible Shortwave Infrared) Imaging Spectroscopy is a powerful remote sensing technique that allows us to collect and analyze spectral information from a scene. It provides valuable insights into the composition and properties of objects on the Earth's surface. In this tutorial, we will explore the key tasks involved in VSWIR imaging spectroscopy for remote sensing applications.
+
+## Table of Contents
+1. [Data Preprocessing](#data-preprocessing)
+2. [Spectral Unmixing](#spectral-unmixing)
+3. [Image Classification](#image-classification)
+
+## 1. Data Preprocessing <a name="data-preprocessing"></a>
+Data preprocessing is an essential step in VSWIR imaging spectroscopy to ensure the data is ready for further analysis. In this section, we will cover the following preprocessing steps:
+
+1. Reading VSWIR imaging spectroscopy data from a file.
+2. Removing noise from the data.
+3. Correcting for atmospheric effects.
+
+### 1.1 Reading VSWIR Data
+We can use the following function to read VSWIR imaging spectroscopy data from a file and return it as a numpy array:
+
+```python
+import numpy as np
+
+def read_vswir_data(file_path):
+    # Read data from file
+    data = np.loadtxt(file_path)
+    
+    # Perform any necessary data preprocessing
+    
+    return data
+```
+
+### 1.2 Noise Removal
+Noise can affect the accuracy of spectral analysis. We can apply various noise removal techniques, such as median filtering or wavelet denoising, to improve the quality of the data. Here's an example of applying median filtering using the `scipy` library:
+
+```python
+from scipy.ndimage import median_filter
+
+def remove_noise(data):
+    # Apply median filtering with a kernel size of 3x3
+    filtered_data = median_filter(data, size=(3, 3))
+    
+    return filtered_data
+```
+
+### 1.3 Atmospheric Correction
+Atmospheric effects can distort the spectral signatures of objects. To correct for atmospheric effects, we can use models or algorithms that estimate and remove the atmospheric interference. One widely used method is the Dark Object Subtraction (DOS) algorithm. Here's an example of applying atmospheric correction using the `spectral` library:
+
+```python
+import spectral
+
+def atmospheric_correction(data):
+    # Convert data to spectral image object
+    img = spectral.ImageArray(data)
+    
+    # Apply atmospheric correction using the DOS algorithm
+    corrected_img = img.atmospheric_correction()
+    
+    # Convert corrected image back to numpy array
+    corrected_data = corrected_img.load()
+    
+    return corrected_data
+```
+
+## 2. Spectral Unmixing <a name="spectral-unmixing"></a>
+Spectral unmixing is a process that decomposes mixed pixel spectra into their constituent endmember spectra and their corresponding abundances. In this section, we will cover the following steps in the spectral unmixing process:
+
+1. Endmember selection.
+2. Abundance estimation.
+3. Error analysis.
+
+### 2.1 Endmember Selection
+Endmembers are pure spectral signatures that represent the materials present in the scene. There are various methods for endmember selection, such as N-FINDR, Pixel Purity Index (PPI), or Vertex Component Analysis (VCA). Here's an example of endmember selection using the N-FINDR algorithm:
+
+```python
+from pysptools import abundance_maps
+
+def select_endmembers(data, num_endmembers):
+    # Convert data to spectral library object
+    lib = abundance_maps.SpectralLibrary(data)
+    
+    # Apply N-FINDR algorithm to select endmembers
+    endmembers = lib.nfindr(num_endmembers)
+    
+    return endmembers
+```
+
+### 2.2 Abundance Estimation
+Abundance estimation determines the proportions of endmembers present in each mixed pixel spectrum. There are several algorithms for abundance estimation, such as Least Squares (LS), Fully Constrained Least Squares (FCLS), or Sparse Unmixing (SU). Here's an example of abundance estimation using the LS algorithm:
+
+```python
+from pysptools import abundance_maps
+
+def estimate_abundances(data, endmembers):
+    # Convert data to spectral image object
+    img = abundance_maps.SpectralImage(data)
+    
+    # Apply LS algorithm to estimate abundances
+    abundances = img.ls(endmembers)
+    
+    return abundances
+```
+
+### 2.3 Error Analysis
+Error analysis assesses the accuracy of the spectral unmixing results. Common error measures include Root Mean Square Error (RMSE), Spectral Angle Mapper (SAM), or Spectral Information Divergence (SID). Here's an example of calculating RMSE error:
+
+```python
+from sklearn.metrics import mean_squared_error
+
+def calculate_rmse(data, endmembers, abundances):
+    # Reconstruct mixed pixel spectra using endmembers and abundances
+    reconstructed_data = np.dot(abundances, endmembers)
+    
+    # Calculate RMSE error between original and reconstructed data
+    rmse = mean_squared_error(data, reconstructed_data, squared=False)
+    
+    return rmse
+```
+
+## 3. Image Classification <a name="image-classification"></a>
+Image classification aims to assign each pixel in the VSWIR image to a specific class or category. There are various classification algorithms, such as Support Vector Machines (SVM), Random Forests, or Convolutional Neural Networks (CNN). Here's an example of image classification using the SVM algorithm:
+
+```python
+from sklearn.svm import SVC
+
+def classify_image(data, labels):
+    # Flatten the data and labels
+    flattened_data = data.reshape(-1, data.shape[-1])
+    flattened_labels = labels.flatten()
+    
+    # Initialize and train the SVM classifier
+    svm = SVC()
+    svm.fit(flattened_data, flattened_labels)
+    
+    # Perform classification on the entire image
+    classified_image = svm.predict(flattened_data)
+    
+    # Reshape the classified image to its original shape
+    classified_image = classified_image.reshape(data.shape[:-1])
+    
+    return classified_image
+```
+
+## Conclusion
+In this tutorial, we have covered the key tasks involved in VSWIR imaging spectroscopy for remote sensing applications. We learned about data preprocessing, spectral unmixing, and image classification. By following the provided code examples and explanations, you can apply these techniques to your own VSWIR data and gain valuable insights about the Earth's surface.
+
+Remember to refer to relevant literature or resources for a deeper understanding of the underlying concepts and techniques.
