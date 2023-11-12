@@ -27,6 +27,6 @@ SpectraSense is indebted to each of you for your unwavering support, passion, an
 
 12 November 2023
 
-[KOSASIH](
+[KOSASIH](https://www.linkedin.com/in/kosasih-81b46b5a) 
 
 Creator Of SpectraSense and team
