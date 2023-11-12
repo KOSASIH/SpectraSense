@@ -1,6 +1,14 @@
 # SpectraSense
 Advancing VSWIR Imaging Spectroscopy for Remote Sensing Excellence.
 
+# Contents 
+
+- [Description](#description) 
+
+# Description 
+
+SpectraSense pioneers cutting-edge VSWIR (Visible and Short-Wave Infrared) Imaging Spectroscopy, pushing the boundaries of remote sensing capabilities. Our innovative technologies redefine excellence in capturing, analyzing, and interpreting spectral data, offering unparalleled precision and insight for a wide range of applications. SpectraSense transforms the landscape of remote sensing, providing a new standard of accuracy and detail for industries ranging from environmental monitoring to geological exploration.
+
 # Guide 
 
 ```python
