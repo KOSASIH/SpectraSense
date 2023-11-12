@@ -3,7 +3,14 @@ Advancing VSWIR Imaging Spectroscopy for Remote Sensing Excellence.
 
 # Contents 
 
-- [Description](#description) 
+- [Description](#description)
+- [Vision And Mission](#vision-and-mission)
+- [Technologies](#technologies)
+- [Problems To Solve](#problems-to-solve)
+- [Contributor Guide](#contributor-guide)
+- [Guide](#guide)
+- [Roadmap](#roadmap)
+- [Aknowledgement](#aknowledgement) 
 
 # Description 
 
